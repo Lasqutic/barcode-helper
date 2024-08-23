@@ -64,9 +64,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#searchButton').addEventListener('click', () => {
 
-
+    searchProduct()
 
   });
+
+  function createTextElement(className, elementTextContent, value) {
+    const element = document.createElement('p');
+    element.className = className;
+    element.textContent = elementTextContent.toString();
+    const span = document.createElement('span');
+    span.textContent = value;
+    element.appendChild(span);
+    return element;
+  }
+
+  const fields = [
+    {
+      key: 'manufacturer',
+      render: (value) => createTextElement('product-card__manufacturer', 'Виробник: ', value)
+    },
+    {
+      key: 'volume',
+      render: (value) => createTextElement('product-card__volume', 'Об\'єм: ', value)
+    }
+  ];
 
   function searchProduct() {
     const searchInput = document.querySelector('#searchInput').value;
@@ -76,23 +97,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const foundProducts = findRecordsByKey(products, 'shortBarcode', searchInput);
 
     if (foundProducts.length === 1) {
-        const productCard = createProductCard(foundProducts[0]);
+      const productCard = createProductCard(foundProducts[0]);
 
-        resultDiv.appendChild(productCard);
+      resultDiv.appendChild(productCard);
     } else if (foundProducts.length > 1) {
-        const productList = document.createElement('div');
-        productList.className = 'product-list';
+      const productList = document.createElement('div');
+      productList.className = 'product-list';
 
-        foundProducts.forEach(product => {
-            const productCard = createProductCard(product);
-            productList.appendChild(productCard);
-        });
+      foundProducts.forEach(product => {
+        const productCard = createProductCard(product);
+        productList.appendChild(productCard);
+      });
 
-        resultDiv.appendChild(productList);
+      resultDiv.appendChild(productList);
     } else {
-        resultDiv.innerHTML = '<p class="error">Продукты не найдены</p>';
+      resultDiv.innerHTML = '<p class="error">Продукты не найдены</p>';
     }
-}
+  }
 
 
   function createProductCard(product) {
