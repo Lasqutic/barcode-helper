@@ -68,6 +68,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   });
 
+  function searchProduct() {
+    const searchInput = document.querySelector('#searchInput').value;
+    const resultDiv = document.querySelector('#page__product-card');
+    resultDiv.innerHTML = '';
+
+    const foundProducts = findRecordsByKey(products, 'shortBarcode', searchInput);
+
+    if (foundProducts.length === 1) {
+        const productCard = createProductCard(foundProducts[0]);
+
+        resultDiv.appendChild(productCard);
+    } else if (foundProducts.length > 1) {
+        const productList = document.createElement('div');
+        productList.className = 'product-list';
+
+        foundProducts.forEach(product => {
+            const productCard = createProductCard(product);
+            productList.appendChild(productCard);
+        });
+
+        resultDiv.appendChild(productList);
+    } else {
+        resultDiv.innerHTML = '<p class="error">Продукты не найдены</p>';
+    }
+}
 
 
   function createProductCard(product) {
