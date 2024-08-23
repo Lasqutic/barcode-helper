@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+/* document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelector('#scanButton').addEventListener('click', () => {
         document.querySelector('#barcodeScanner').classList.toggle('active');
@@ -22,4 +22,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-});
+}); */
