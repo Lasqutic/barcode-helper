@@ -62,4 +62,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
+  document.querySelector('#searchButton').addEventListener('click', () => {
+
+    function createProductInfo(product) {
+
+
+      const titleElement = document.createElement('h2');
+      titleElement.className = 'product-card__title';
+      titleElement.textContent = product.title;
+
+      const infoElement = document.createElement('div');
+      infoElement.className = 'product-card__info';
+
+      const imgElement = document.createElement('img');
+      imgElement.src = `https://solo.ua${product.imgLink}`;
+      imgElement.alt = 'Фото товару';
+      imgElement.className = 'product-card__image';
+      infoElement.appendChild(imgElement);
+
+      const barcodeElement = document.createElement('p');
+      barcodeElement.className = 'product-card__barcode';
+      barcodeElement.textContent = 'Код товара: ';
+      barcodeElement.insertAdjacentHTML('beforeend', `<span>${product.barcode}</span>`);
+      infoElement.appendChild(barcodeElement);
+     
+
+      const linkElement = document.createElement('a');
+      linkElement.href = product.pageUrl;
+      linkElement.className = 'product-card__url';
+      linkElement.target = '_blank';
+      linkElement.rel = 'noopener noreferrer';
+      linkElement.textContent = 'Посилання на продукт';
+      infoElement.appendChild(linkElement);
+
+
+      fields.forEach(field => {
+          if (product[field.key]) {
+              const fieldElement = field.render(product[field.key], product);
+              infoElement.appendChild(fieldElement);
+          }
+      });
+
+      return infoElement;
+  }
+
+  });
+
 })
