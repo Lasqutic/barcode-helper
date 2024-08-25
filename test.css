@@ -91,19 +91,15 @@ body {
     transform: scaleY(0);
     transition: max-height 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
     margin: 10px auto;
-
 }
 
 .barcode-scanner.active {
     max-height: 300px;
-    max-width: 600px;
     opacity: 1;
     transform: scaleY(1);
-    display: block;
 }
 
 .barcode-scanner__container {
-
     position: relative;
     padding-bottom: 56.25%;
     /* Соотношение сторон 16:9 */
@@ -198,4 +194,8 @@ body {
 
 .error {
     color: crimson;
+}
+
+.drawingBuffer {
+    display: none;
 }
