@@ -1,11 +1,30 @@
-function startBarcodeScanner() {
-    return new Promise((resolve, reject) => {
+let isScannerActive = false; 
+let videoStream = null;  // Хранит видеопоток камеры
+
+function stopAndHideScanner() {
+    if (isScannerActive) {
+        Quagga.stop();
+
+        if (videoStream) {
+            const tracks = videoStream.getTracks();
+            tracks.forEach(track => track.stop());
+            videoStream = null; 
+        }
 
         const scannerContainer = document.querySelector('#scannerContainer');
-        const scanner = document.querySelector('#scanner');
-        const barcodeResult = document.querySelector('#barcodeResult');
+        scannerContainer.style.display = 'none';
+        isScannerActive = false;
+    }
+}
 
-        scannerContainer.style.display = 'block';
+async function startBarcodeScanner() {
+    const scannerContainer = document.querySelector('#scannerContainer');
+    const scanner = document.querySelector('#scanner');
+    const barcodeResult = document.querySelector('#barcodeResult');
+
+    scannerContainer.style.display = 'block';
+
+    return new Promise((resolve, reject) => {
         Quagga.init({
             inputStream: {
                 name: "Live",
@@ -20,36 +39,60 @@ function startBarcodeScanner() {
             decoder: {
                 readers: ["ean_reader"]
             }
-        }, function (err) {
+        }, async function (err) {
             if (err) {
                 console.error(err);
-                alert("Попилка ініціалізації: " + err.name + " - " + err.message);
+                alert("Ошибка инициализации: " + err.name + " - " + err.message);
+                stopAndHideScanner(); 
                 reject(err);
                 return;
             }
-            Quagga.start();
+
+            try {
+                // Получаем видеопоток для управления вручную
+                videoStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" }
+                });
+                const videoElement = scanner.querySelector('video');
+                if (videoElement) {
+                    videoElement.srcObject = videoStream;
+                }
+
+                Quagga.start();
+                isScannerActive = true;
+            } catch (err) {
+                console.error("Ошибка получения видеопотока:", err);
+                stopAndHideScanner();
+                reject(err);
+            }
         });
 
         Quagga.onDetected(function (data) {
             const code = data.codeResult.code;
             barcodeResult.textContent = code;
 
-            Quagga.stop();
-            document.querySelector('#scanner-container').style.display = 'none';
-
+            stopAndHideScanner();  
             resolve(code);
         });
     });
 }
-async function handleScanButtonClick() {
-    try {
-        const scannedCode = await startBarcodeScanner();
-        console.log("Сканированный штрих-код сохранен:", scannedCode);
 
-    } catch (err) {
-        console.error("Ошибка сканирования:", err);
-    }
-}
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#scanButton').addEventListener('click', handleScanButtonClick)
+    const scanButton = document.querySelector('#scanButton');
+    const barcodeScanner = document.querySelector('.barcode-scanner');
+
+    scanButton.addEventListener('click', async () => {
+        if (isScannerActive) {
+            stopAndHideScanner();  
+            barcodeScanner.classList.remove('active');
+        } else {
+            barcodeScanner.classList.add('active');
+            try {
+                await startBarcodeScanner();
+            } catch (error) {
+                console.error('Ошибка во время сканирования:', error);
+                barcodeScanner.classList.remove('active');
+            }
+        }
+    });
 });
