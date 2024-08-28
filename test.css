@@ -45,6 +45,9 @@ body {
     justify-content: center;
     gap: .3rem;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 5px;
+    padding: 20px 0;
 }
 
 .search__title {
@@ -117,6 +120,24 @@ body {
     height: 100%;
     background-color: #000000c7;
     box-shadow: 0 0 1.625rem rgba(0, 0, 0, 0.1);
+}
+
+.product-list {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr 1fr;
+    margin: 10px;
+    
+    
+}
+.product-list .product-card__image {
+    width: 100px;
+    height: 200px;
+}
+.product-list .product-card__content {
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 5px;  
 }
 
 .product-card {
