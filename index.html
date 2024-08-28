@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Пошук товара</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
     <link rel="stylesheet" href="test.css">
 </head>
 
@@ -17,7 +16,7 @@
                 <div class="search__form" id="search-form">
                     <label class="search__label" for="product-code">Введіть код товара:</label>
                     <input class="search__input" type="text" id="searchInput" name="product-code"
-                        placeholder="чотири цифри" required>
+                        placeholder="Останні чотири цифри" required>
 
                     <!-- required autofocus -->
                     <button class="search__button" id="searchButton" type="submit">Пошук</button>
@@ -27,12 +26,11 @@
             </section>
 
             <section class="page__barcode-scanner barcode-scanner" id="barcodeScanner">
-                <h2 class="barcode-scanner__title">Сканування штрих-коду</h2>
+                <h2 class="barcode-scanner__title">Сканування штрих-коду формату EAN-13</h2>
                 <form class="barcode-scanner__form">
                     <div class="barcode-scanner__container" id="scannerContainer">
                         <div class="barcode-scanner__video" id="scanner"></div>
                     </div>
-                    <p class="barcode-scanner__result">Штрих-код: <span id="barcodeResult">Нет данных</span></p>
                 </form>
             </section>
             <section class="page__product-card product-card" id="page__product-card"></section>
