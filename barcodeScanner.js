@@ -1,30 +1,75 @@
-(function() {
-    let isScannerActive = false;  
-    let videoStream = null; 
-    let scanSubscribers = [];  // Массив для хранения подписчиков
+class BarcodeScanner {
+    #isScannerActive = false;
+    #isProcessing = false;
+    #barcodeScannerElement;
+    #scanButton;
+    #timeoutId;
 
-    function stopAndHideScanner() {
-        if (isScannerActive) {
-            Quagga.stop();
+    constructor() {
+        this.#barcodeScannerElement = document.querySelector('.barcode-scanner');
+        this.#scanButton = document.querySelector('#scanButton');
+        this.#init();
+    }
 
-            if (videoStream) {
-                const tracks = videoStream.getTracks();
-                tracks.forEach(track => track.stop());
-                videoStream = null; 
+    #init() {
+        this.#scanButton.addEventListener('click', async () => {
+            if (this.#isProcessing) {
+                return; // Prevent multiple clicks to avoid initializing video streams multiple times.
+            } 
+            this.#isProcessing = true;
+
+            if (this.#isScannerActive) {
+                this.#stopAndHideScanner();
+            } else {
+                await this.#showAndStartScanner();
             }
 
-            const scannerContainer = document.querySelector('#scannerContainer');
-            scannerContainer.style.display = 'none';
-            isScannerActive = false;
+            setTimeout(() => {
+                this.#isProcessing = false; 
+            }, 2000); // Delay before re-enabling clicks
+        });
+    }
+
+    async #showAndStartScanner() {
+        this.#barcodeScannerElement.classList.add('active');
+        this.#barcodeScannerElement.style.display = 'block';
+
+        try {
+            await this.#startScanner();
+
+            // Set a n-second timer to automatically turn off the camera if something goes wrong.
+            this.#timeoutId = setTimeout(() => {
+                this.#stopAndHideScanner();
+                alert('Час використання камери сплив. Спробуйте повторно відсканувати.');
+            }, 40000);
+        } catch (error) {
+            alert("Помилка під час запуску сканера: " + error.message);
+            console.error('Помилка під час запуску сканера: ', error.message);
+            this.#stopAndHideScanner();
         }
     }
 
-    async function startBarcodeScanner() {
-        const scannerContainer = document.querySelector('#scannerContainer');
-        const scanner = document.querySelector('#scanner');
-        const barcodeResult = document.querySelector('#barcodeResult');
+    #stopAndHideScanner() {
+        if (this.#isScannerActive) {
+            this.#stopScanner();
+            this.#isScannerActive = false;
+        }
 
-        scannerContainer.style.display = 'block';
+        this.#barcodeScannerElement.style.display = 'none';
+        this.#barcodeScannerElement.classList.remove('active');
+
+        if (this.#timeoutId) {
+            clearTimeout(this.#timeoutId);
+            this.#timeoutId = null;
+        }
+    }
+
+    #stopScanner() {
+        Quagga.stop();
+    }
+
+    async #startScanner() {
+        const scanner = document.querySelector('#scanner');
 
         return new Promise((resolve, reject) => {
             Quagga.init({
@@ -41,76 +86,34 @@
                 decoder: {
                     readers: ["ean_reader"]
                 }
-            }, async function (err) {
-                if (err) {
-                    console.error(err);
-                    alert("Ошибка инициализации: " + err.name + " - " + err.message);
-                    stopAndHideScanner();  
-                    reject(err);
+            }, (error) => {
+                if (error) {
+                    reject(error);
                     return;
                 }
 
-                try {
-                    // Получаем видеопоток для управления вручную
-                    videoStream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: "environment" }
-                    });
-                    const videoElement = scanner.querySelector('video');
-                    if (videoElement) {
-                        videoElement.srcObject = videoStream;
-                    }
-
-                    Quagga.start();
-                    isScannerActive = true;
-                } catch (err) {
-                    console.error("Ошибка получения видеопотока:", err);
-                    stopAndHideScanner();
-                    reject(err);
-                }
+                Quagga.start();
+                this.#isScannerActive = true;
+                resolve();
             });
 
-            Quagga.onDetected(function (data) {
+            Quagga.onDetected((data) => {
                 const code = data.codeResult.code;
-                barcodeResult.textContent = code;
-
-                notifySubscribers(code);
-
-                stopAndHideScanner();
-                resolve(code);
+                console.log("Код обнаружен:", code);
+                this.#stopAndHideScanner();
             });
         });
     }
 
-    // Добавление функции для подписки
-    function subscribeToScanResult(callback) {
-        scanSubscribers.push(callback);
+    get isActive() {
+        return this.#isScannerActive;
     }
 
-    // Уведомление всех подписчиков
-    function notifySubscribers(result) {
-        scanSubscribers.forEach(callback => callback(result));
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const scanButton = document.querySelector('#scanButton');
-        const barcodeScanner = document.querySelector('.barcode-scanner');
-
-        scanButton.addEventListener('click', async () => {
-            if (isScannerActive) {
-                stopAndHideScanner();  
-                barcodeScanner.classList.remove('active');
-            } else {
-                barcodeScanner.classList.add('active');
-                try {
-                    await startBarcodeScanner();
-                } catch (error) {
-                    console.error('Ошибка во время сканирования:', error);
-                    barcodeScanner.classList.remove('active');
-                }
-            }
+    onScan(callback) {
+        Quagga.onDetected((data) => {
+            const code = data.codeResult.code;
+            this.#stopAndHideScanner();
+            callback(code);
         });
-    });
-
-    // Экспортируем функцию подписки в глобальную область видимости
-    window.subscribeToScanResult = subscribeToScanResult;
-})();
+    }
+}
