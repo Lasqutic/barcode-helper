@@ -1,34 +1,45 @@
 const api = 'https://lasqutic.github.io/myLabsJs/fulldb.json';
 
-const products = [];
+const productss = [];
 
 fetch(api)
   .then(res => res.json())
   .then(data => {
     products.push(...data);
-    console.log('products>>>>', products);
   })
   .catch(error => console.error('Fetch error:', error));
 
-
-
-document.querySelector('#scanButton').addEventListener('click', () => {
-  document.querySelector('#barcodeScanner').classList.toggle('active');
-});
-/* document.querySelector('#searchInput').addEventListener('input', function () {
+document.querySelector('#searchInput').addEventListener('input', function () {
   this.value = this.value.replace(/[^\d]/g, '').slice(0, 4);
+});
 
-}); */
+document.addEventListener('DOMContentLoaded', () => {
+  const scanner = new BarcodeScanner();
 
+  scanner.onScan((scannedCode) => {
+      console.log("результат сканування:", scannedCode);
+  });
+});
 
 document.querySelector('#searchButton').addEventListener('click', () => {
 
   searchProduct()
 });
 
+function sortByKey(jsonArray, key) {
+  return jsonArray.sort((a, b) => {
+    const valueA = parseInt(a[key], 10);
+    const valueB = parseInt(b[key], 10);
+
+    return valueA - valueB;
+  });
+}
+const products = sortByKey(productss, 'shortBarcode');
+console.log(products)
 
 
-const fields = [
+
+const jsonFields = [
   {
     key: 'manufacturer',
     render: (value) => createTextElement('product-card__manufacturer', 'Виробник: ', value)
@@ -57,6 +68,7 @@ function searchProduct() {
   const searchInput = document.querySelector('#searchInput').value;
   const resultDiv = document.querySelector('#page__product-card');
   resultDiv.innerHTML = '';
+  resultDiv.replaceChildren();
 
   const foundProducts = findRecordsByKey(products, 'shortBarcode', searchInput);
 
@@ -75,10 +87,10 @@ function searchProduct() {
 
     resultDiv.appendChild(productList);
   } else {
-    resultDiv.innerHTML = '<p class="error">Продукты не найдены</p>';
+    resultDiv.appendChild(createTextElement('error', 'На жаль, не вдалося знайти продукти за вказаним кодом: ', searchInput))
+
   }
 }
-
 
 function createProductCard(product) {
   const productCard = document.createElement('div');
@@ -129,7 +141,7 @@ function createProductInfo(product) {
   infoElement.appendChild(linkElement);
 
 
-  fields.forEach(field => {
+  jsonFields.forEach(field => {
     if (product[field.key]) {
       const fieldElement = field.render(product[field.key], product);
       infoElement.appendChild(fieldElement);
