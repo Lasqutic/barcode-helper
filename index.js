@@ -9,8 +9,20 @@ fetch(api)
   })
   .catch(error => console.error('Fetch error:', error));
 
-document.querySelector('#searchInput').addEventListener('input', function () {
+ document.querySelector('#searchInput').addEventListener('input', function () {
   this.value = this.value.replace(/[^\d]/g, '').slice(0, 4);
+}); 
+
+document.addEventListener('click', function(event) {
+  if (event.target.closest('.product-list .product-card__content')) {
+      const clickedCard = event.target.closest('.product-card__content');
+      
+      if (clickedCard) {
+          const selectedCard = clickedCard.cloneNode(true); 
+          const parent = clickedCard.closest('.product-list');
+          parent.replaceWith(selectedCard); 
+      }
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -105,6 +117,10 @@ function createProductCard(product) {
   imgElement.src = `https://solo.ua${product.imgLink}`;
   imgElement.alt = 'Фото товару';
   imgElement.className = 'product-card__image';
+  imgElement.onerror = function() {
+    imgElement.src = 'https://placehold.jp/30/dd6699/ffffff/500x400.png?text=Зображення+не+знайдено'; 
+    imgElement.alt = 'Зображення не знайдено';
+};
   productCard.appendChild(imgElement);
 
   productCard.appendChild(createProductInfo(product));
