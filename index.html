@@ -14,11 +14,11 @@
             <section class="page__search search">
                 <h1 class="search__title">Пошук по коду</h1>
                 <form class="search__form" id="search-form" onsubmit="return false"  autocomplete="off">
-                    <label class="search__label" for="product-code">Введіть код товара:</label>
-                    <input class="search__input" type="text" id="searchInput" name="product-code"
+                    <label class="search__label" for="searchInput">Введіть код товара:</label>
+                    <input class="search__input" type="text" id="searchInput"
                         placeholder="Останні чотири цифри" required>
                     <button class="search__button" id="searchButton" type="submit">Пошук</button>
-                    <button class="search__button search__button--scan" type="submit" id="scanButton">Сканувати</button>
+                    <button class="search__button search__button--scan" type="button" id="scanButton">Сканувати</button>
                     <span class="error" id="search__error"></span>
                 </form>
             </section>
