@@ -55,7 +55,6 @@ class BarcodeScanner {
             this.#isScannerActive = false;
         }
 
-        this.#barcodeScannerElement.style.display = 'none';
         this.#barcodeScannerElement.classList.remove('active');
 
         if (this.#timeoutId) {
