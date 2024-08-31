@@ -43,7 +43,7 @@ body {
     gap: .3rem;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.24) 0rem .1875rem .5rem;
-    border-radius: .3125rem;
+    border-radius: var(--broder-radius);
     padding: 1.25rem 0;
 }
 
@@ -59,11 +59,11 @@ body {
     padding: .25rem;
     border: .0625rem solid transparent;
     background-color: #f0f0f0;
-    border-radius: .1875rem;
+    border-radius: var(--broder-radius);
     transition: 0.5s ease;
     width: clamp(17.5rem, 90vw - 1.25rem, 26.5625rem);
-    transition: 
-        border-color .5s, 
+    transition:
+        border-color .5s,
         background .5s;
 }
 
@@ -72,22 +72,28 @@ body {
 .search__form:hover {
     background-color: #fff;
     outline: none;
-    border-color: #6e2bda
+    border-color: var(--border-color);
 }
 
 
 .search__button {
-    border: .0625rem solid #6e2bda;
+    border: var(--border-conf);
     padding: .25rem;
     min-width: 4.6875rem;
     min-height: 1.75rem;
-    border-radius: .1875rem;
+    border-radius: var(--broder-radius);
     transition: .5s ease-in;
 }
 
 .search__button:hover {
-    border: var(--border-conf);
     box-shadow: var(--shadow);
+}
+
+#scanButton:disabled {
+    cursor: not-allowed;
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0) 49.9%, var(--border-color) 49.9%, var(--border-color) 60%, rgba(0, 0, 0, 0) 60%) fixed,
+        linear-gradient(45deg, var(--border-color) 10%, rgba(0, 0, 0, 0) 10%) fixed;
+    background-size: 0.5em 0.5em;
 }
 
 .barcode-scanner {
@@ -178,18 +184,16 @@ body {
     font-size: clamp(1.2rem, 3vw + .2rem, 1.5rem);
     flex: 100%;
     text-align: left;
-
 }
 
 .product-card__content {
     min-width: 15.625rem;
     padding: .625rem;
     box-shadow: rgba(0, 0, 0, 0.24) 0rem .1875rem .5rem;
-    border-radius: .3125rem;
+    border-radius: var(--broder-radius);
     display: flex;
     flex-wrap: wrap;
     gap: .8125rem;
-
 }
 
 .product-card__image {
@@ -207,7 +211,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-
 }
 
 .product-card__barcode,
@@ -240,7 +243,6 @@ body {
     display: block;
     color: #007bff;
     text-decoration: none;
-
     order: 1;
 }
 
@@ -251,9 +253,9 @@ body {
 .error {
     color: crimson;
     text-align: center;
-
 }
 
 .drawingBuffer {
     display: none;
 }
+

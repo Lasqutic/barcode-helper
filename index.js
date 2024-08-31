@@ -9,27 +9,26 @@ fetch(api)
   })
   .catch(error => console.error('Fetch error:', error));
 
- document.querySelector('#searchInput').addEventListener('input', function () {
+document.querySelector('#searchInput').addEventListener('input', function () {
   this.value = this.value.replace(/[^\d]/g, '').slice(0, 4);
-}); 
+});
 
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
   if (event.target.closest('.product-list .product-card__content')) {
-      const clickedCard = event.target.closest('.product-card__content');
-      
-      if (clickedCard) {
-          const selectedCard = clickedCard.cloneNode(true); 
-          const parent = clickedCard.closest('.product-list');
-          parent.replaceWith(selectedCard); 
-      }
+    const clickedCard = event.target.closest('.product-card__content');
+
+    if (clickedCard) {
+      const selectedCard = clickedCard.cloneNode(true);
+      const parent = clickedCard.closest('.product-list');
+      parent.replaceWith(selectedCard);
+    }
   }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const scanner = new BarcodeScanner();
-
+  const scanner = new BarcodeScanner(document.querySelector('#scanButton'), document.querySelector('.barcode-scanner'));
   scanner.onScan((scannedCode) => {
-      console.log("результат сканування:", scannedCode);
+    console.log("результат сканування:", scannedCode);
   });
 });
 
@@ -98,7 +97,11 @@ function searchProduct() {
     });
 
     resultDiv.appendChild(productList);
-  } else {
+  }
+  else if (searchInput == '') {
+    resultDiv.appendChild(createTextElement('error', 'Для пошуку товару введіть останні чотири цифри штрих-коду в поле вводу', null))
+  }
+  else {
     resultDiv.appendChild(createTextElement('error', 'На жаль, не вдалося знайти продукти за вказаним кодом: ', searchInput))
 
   }

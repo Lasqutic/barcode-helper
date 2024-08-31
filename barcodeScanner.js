@@ -5,15 +5,17 @@ class BarcodeScanner {
     #scanButton;
     #timeoutId;
 
-    constructor() {
-        this.#barcodeScannerElement = document.querySelector('.barcode-scanner');
-        this.#scanButton = document.querySelector('#scanButton');
+    constructor(scanButton, barcodeScannerElement) {
+        this.#barcodeScannerElement = barcodeScannerElement//= document.querySelector('.barcode-scanner');
+        this.#scanButton = scanButton; //document.querySelector('#scanButton');
         this.#init();
     }
 
     #init() {
         this.#scanButton.addEventListener('click', async () => {
             if (this.#isProcessing) {
+
+                this.#scanButton.disabled = true;
                 return; // Prevent multiple clicks to avoid initializing video streams multiple times.
             } 
             this.#isProcessing = true;
@@ -25,7 +27,9 @@ class BarcodeScanner {
             }
 
             setTimeout(() => {
-                this.#isProcessing = false; 
+                this.#isProcessing = false;
+                this.#scanButton.disabled = false
+               
             }, 2000); // Delay before re-enabling clicks
         });
     }
