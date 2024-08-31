@@ -13,16 +13,14 @@
         <main class="page">
             <section class="page__search search">
                 <h1 class="search__title">Пошук по коду</h1>
-                <div class="search__form" id="search-form">
+                <form class="search__form" id="search-form" onsubmit="return false"  autocomplete="off">
                     <label class="search__label" for="product-code">Введіть код товара:</label>
                     <input class="search__input" type="text" id="searchInput" name="product-code"
                         placeholder="Останні чотири цифри" required>
-
-                    <!-- required autofocus -->
                     <button class="search__button" id="searchButton" type="submit">Пошук</button>
                     <button class="search__button search__button--scan" type="submit" id="scanButton">Сканувати</button>
                     <span class="error" id="search__error"></span>
-                </div>
+                </form>
             </section>
 
             <section class="page__barcode-scanner barcode-scanner" id="barcodeScanner">
