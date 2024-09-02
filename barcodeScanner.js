@@ -1,4 +1,4 @@
-class BarcodeScanner {
+export default class BarcodeScanner {
     #isScannerActive = false;
     #isProcessing = false;
     #barcodeScannerElement;
@@ -6,8 +6,8 @@ class BarcodeScanner {
     #timeoutId;
 
     constructor(scanButton, barcodeScannerElement) {
-        this.#barcodeScannerElement = barcodeScannerElement//= document.querySelector('.barcode-scanner');
-        this.#scanButton = scanButton; //document.querySelector('#scanButton');
+        this.#barcodeScannerElement = barcodeScannerElement
+        this.#scanButton = scanButton; 
         this.#init();
     }
 
