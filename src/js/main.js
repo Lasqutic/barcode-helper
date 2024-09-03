@@ -1,8 +1,8 @@
-import ProductSearcher from './ProductSearcher.js';
-import ApiProductLoader from './ApiProductLoader.js';
-import ProductRenderer from './ProductRenderer.js';
-import ProductController from './ProductController.js';
-import BarcodeScanner from './BarcodeScanner.js';
+import ProductSearcher from './components/ProductSearcher.js';
+import ApiProductLoader from './services/ApiProductLoader.js';
+import ProductRenderer from './components/ProductRenderer.js';
+import ProductController from './components/ProductController.js';
+import BarcodeScanner from './components/BarcodeScanner.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const apiUrl = 'https://lasqutic.github.io/myLabsJs/fulldb.json';

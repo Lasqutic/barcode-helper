@@ -9,9 +9,8 @@ export default class ProductController {
     try {
       const products = await this.searcher.loadAndSearchByBarcode(barcode);
       if (!barcode) {
-        this.renderer.renderError('Поле Input не повинно бути пустим. Введіть останні чтотири цифри штрих-коду');
-      }
-      else if (products.length === 0) {
+        this.renderer.renderError('Поле Input не повинно бути пустим. Введіть останні чотири цифри штрих-коду');
+      } else if (products.length === 0) {
         this.renderer.renderError(`Продукт з таким кодом "${barcode}" не знайдено`);
       } else if (products.length === 1) {
         this.renderer.renderSingleProduct(products[0]);
