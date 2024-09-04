@@ -35,12 +35,12 @@ export default class BarcodeScanner {
     }
 
     async #showAndStartScanner() {
-        this.#barcodeScannerElement.classList.add('active');
-        this.#barcodeScannerElement.style.display = 'block';
+       
 
         try {
             await this.#startScanner();
-
+            this.#barcodeScannerElement.classList.add('active');
+            this.#barcodeScannerElement.style.display = 'block';
             // Set a n-second timer to automatically turn off the camera if something goes wrong.
             this.#timeoutId = setTimeout(() => {
                 this.#stopAndHideScanner();
