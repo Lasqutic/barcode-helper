@@ -3,10 +3,10 @@
 
 html {
     --shadow: .125rem .0625rem .35rem .0625rem #7a33ee;
-    --broder-radius: .25rem;
+    --broder-radius: 8px;
     --border-color: #7a33ee;
     --border-conf: .0625rem solid var(--border-color);
-    --font-size-default-text: clamp(.95rem, 4vw + .1rem, 1.2rem);
+    --default-text-size: clamp(.95rem, 4vw + .1rem, 1.2rem);
 }
 
 body {
@@ -20,7 +20,7 @@ body {
 
     font-family: "Fira Sans Condensed", sans-serif;
     font-weight: 400;
-    font-size: var(--font-size-default-text);
+    font-size: var(--default-text-size);
 
     word-break: break-word;
     hyphens: auto;
@@ -55,38 +55,68 @@ body {
     cursor: pointer;
 }
 
-.search__input {
-    padding: .25rem;
-    border: .0625rem solid transparent;
-    background-color: #f0f0f0;
-    border-radius: var(--broder-radius);
-    transition: 0.5s ease;
-    width: clamp(17.5rem, 90vw - 1.25rem, 26.5625rem);
+
+.search__container {
+    --padding: .125rem;
+    
+    
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding: var(--padding);
+    border-radius: 11px;
+    background: #f0f0f0;
+    border: 1px solid transparent;
     transition:
-        border-color .5s,
-        background .5s;
+        border-color .3s,
+        background .3s;
 }
 
-.search__input:hover,
-.search__input:focus,
-.search__form:hover {
-    background-color: #fff;
+.search__container:hover,
+.search__container:focus-within {
+    box-shadow: 0 0 3px rgba(122, 51, 238, 75);
+    background: #fff;
+    border-color: var(--border-color)
+}
+
+
+.search__input {
+    padding: var(--padding);
+    border-radius: var(--broder-radius);
+    width: clamp(16.25rem, 90vw - 1.25rem, 395px);
+    border: none;
+    background: transparent;
     outline: none;
-    border-color: var(--border-color);
+    text-align: center;
+}
+.search__input::placeholder{
+    font-size: .90em;
+    font-style: italic;
+}
+.search__input:focus::placeholder{
+    font-size: .90em;
+}
+
+.search__icon {
+    color: rgba(0, 0, 0, 0.5);
 }
 
 
 .search__button {
-    border: var(--border-conf);
+    border: 1px solid transparent;
     padding: .25rem;
     min-width: 4.6875rem;
     min-height: 1.75rem;
     border-radius: var(--broder-radius);
-    transition: .5s ease-in;
+    background: #f0f0f0;
 }
 
 .search__button:hover {
-    box-shadow: var(--shadow);
+    box-shadow: 0 0 3px rgba(122, 51, 238, 75);
+    background: #fff;
+    border-color: var(--border-color);
+    transition: border-color .3s;
+   
 }
 
 #scanButton:disabled {
@@ -258,4 +288,3 @@ body {
 .drawingBuffer {
     display: none;
 }
-
