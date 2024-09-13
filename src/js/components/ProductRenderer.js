@@ -5,7 +5,7 @@ export default class ProductRenderer {
             render: (value) => this.#createTextElement('product-card__manufacturer', 'Виробник: ', value)
         },
         {
-            key: 'volume',
+            key: 'productVolume',
             render: (value) => this.#createTextElement('product-card__volume', 'Об\'єм: ', value)
         }
     ];
