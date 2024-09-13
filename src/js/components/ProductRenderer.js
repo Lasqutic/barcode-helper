@@ -39,7 +39,7 @@ export default class ProductRenderer {
     #clearResults() {
         this.resultDiv.innerHTML = '';
     }
-
+//TODO: Implement image list rendering
     #createProductCard(product) {
         const productCard = document.createElement('div');
         productCard.className = 'product-card__content';
@@ -50,7 +50,7 @@ export default class ProductRenderer {
         productCard.appendChild(titleElement);
 
         const imgElement = document.createElement('img');
-        imgElement.src = `https://solo.ua${product.imgLink}`;
+        imgElement.src = product.imgUrls[0];
         imgElement.alt = 'Фото товару';
         imgElement.className = 'product-card__image';
         imgElement.onerror = function () {

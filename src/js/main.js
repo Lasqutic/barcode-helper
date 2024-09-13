@@ -5,7 +5,7 @@ import ProductController from './components/ProductController.js';
 import BarcodeScanner from './components/BarcodeScanner.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const apiUrl = 'https://lasqutic.github.io/myLabsJs/fulldb.json';
+  const apiUrl = 'https://raw.githubusercontent.com/Lasqutic/parserSolo/main/parsedData.json'
   const searcher = new ProductSearcher(new ApiProductLoader(apiUrl));
   const renderer = new ProductRenderer('#page__product-card');
   const controller = new ProductController(renderer, searcher);

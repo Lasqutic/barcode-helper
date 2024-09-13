@@ -8,7 +8,7 @@ export default class ProductSearcher {
 
     this.products = await this.productLoader.loadProducts();
     return barcode.length === 13 
-    ? this.#findByBarcode(barcode) 
+    ? this.#findByLongBarcode(barcode) 
     : this.#findByShortBarcode(barcode);
   }
 
@@ -21,7 +21,7 @@ export default class ProductSearcher {
     return this.#findByKey('shortBarcode', shortBarcode);
   }
 
-  #findByBarcode(barcode) {
+  #findByLongBarcode(barcode) {
     return this.#findByKey('barcode', barcode);
   }
 }
