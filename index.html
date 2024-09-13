@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Пошук товара</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="src/styles/style.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
@@ -16,8 +16,8 @@
             <section class="page__search search">
                 <h1 class="search__title">Пошук по коду</h1>
                 <form class="search__form" id="search-form" onsubmit="return false" autocomplete="off">
-                    <label class="search__label" for="searchInput">Введіть код товара:</label>
                     <div class="search__container">
+                        <label class="search__label" for="searchInput">Введіть код товара:</label>
                         <input class="search__input" type="text" id="searchInput" placeholder="Останні чотири цифри..."
                             required>
                         <span class="search__icon material-symbols-outlined">search</span>
@@ -41,7 +41,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="src/js/main.js"></script>
 
 </body>
 

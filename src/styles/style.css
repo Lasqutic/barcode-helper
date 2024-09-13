@@ -2,8 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@300;400;500&display=swap');
 
 html {
-    --shadow: .125rem .0625rem .35rem .0625rem #7a33ee;
-    --broder-radius: 8px;
+    --border-radius: .5rem;
     --border-color: #7a33ee;
     --border-conf: .0625rem solid var(--border-color);
     --default-text-size: clamp(.95rem, 4vw + .1rem, 1.2rem);
@@ -30,20 +29,23 @@ body {
 .wrapper {
 
     background-color: #fff;
-    border-radius: .5rem;
+    border-radius: var(--border-radius);
     box-shadow: 0 0 .625rem rgba(0, 0, 0, 0.1);
     width: 50rem;
     padding: 0 .625rem;
 }
 
 .search__form {
+    --padding: .25rem;
+
+
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: .3rem;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.24) 0rem .1875rem .5rem;
-    border-radius: var(--broder-radius);
+    border-radius: var(--border-radius);
     padding: 1.25rem 0;
 }
 
@@ -51,72 +53,82 @@ body {
     visibility: hidden;
 }
 
+.search__container {
+  
+    position: relative;
+    display: flex;
+    border: var(--border-conf);
+    border-radius: var(--border-radius);
+    background-color: #e8e8e8;
+    align-items: center;
+    min-height: 30px;
+   /*  padding: var(--padding); */
+
+}
+
+.search__container:hover {
+    box-shadow: 0 0 .1875rem rgba(122, 51, 238, 0.75);
+    background: #fff;
+    border-color: var(--border-color);
+    transition: border-color .3s;
+
+}
+
+.search__container:hover .search__label {
+    text-shadow: 0 0 .1875rem rgba(129, 140, 248, 0.4);
+    transition: text-shadow .3s;
+
+}
+
 .search__label {
     cursor: pointer;
+    font-size: .80em;
+    font-weight: 500;
+    color: #818cf8;
+    background: none;
+    position: absolute;
+    left: .0625rem;
+    top: -1.0625rem;
+    left: 2.1875rem;
 }
-
-
-.search__container {
-    --padding: .125rem;
-    
-    
-    width: max-content;
-    display: flex;
-    align-items: center;
-    padding: var(--padding);
-    border-radius: 11px;
-    background: #f0f0f0;
-    border: 1px solid transparent;
-    transition:
-        border-color .3s,
-        background .3s;
-}
-
-.search__container:hover,
-.search__container:focus-within {
-    box-shadow: 0 0 3px rgba(122, 51, 238, 75);
-    background: #fff;
-    border-color: var(--border-color)
-}
-
 
 .search__input {
     padding: var(--padding);
-    border-radius: var(--broder-radius);
-    width: clamp(16.25rem, 90vw - 1.25rem, 395px);
+    border-radius: var(--border-radius);
+    width: clamp(16.25rem, 90vw - 1.25rem, 24.6875rem);
     border: none;
     background: transparent;
     outline: none;
     text-align: center;
 }
-.search__input::placeholder{
-    font-size: .90em;
+
+.search__input::placeholder {
+    font-size: .75em;
     font-style: italic;
-}
-.search__input:focus::placeholder{
-    font-size: .90em;
 }
 
 .search__icon {
     color: rgba(0, 0, 0, 0.5);
+    display: flex 1 1;
 }
 
 
 .search__button {
-    border: 1px solid transparent;
-    padding: .25rem;
+    padding: var(--padding);
     min-width: 4.6875rem;
-    min-height: 1.75rem;
-    border-radius: var(--broder-radius);
+    min-height: 30px;
+    border-radius: var(--border-radius);
     background: #f0f0f0;
+    border: var(--border-conf);
+
 }
 
 .search__button:hover {
-    box-shadow: 0 0 3px rgba(122, 51, 238, 75);
+    box-shadow: 0 0 .1875rem rgba(122, 51, 238, 75);
     background: #fff;
     border-color: var(--border-color);
     transition: border-color .3s;
-   
+
 }
 
 #scanButton:disabled {
@@ -150,11 +162,11 @@ body {
     padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
-    border-radius: var(--broder-radius);
+    border-radius: var(--border-radius);
 }
 
 .barcode-scanner__video {
-    border-radius: var(--broder-radius);
+    border-radius: var(--border-radius);
     position: absolute;
     top: 0;
     left: 0;
@@ -220,7 +232,7 @@ body {
     min-width: 15.625rem;
     padding: .625rem;
     box-shadow: rgba(0, 0, 0, 0.24) 0rem .1875rem .5rem;
-    border-radius: var(--broder-radius);
+    border-radius: var(--border-radius);
     display: flex;
     flex-wrap: wrap;
     gap: .8125rem;
@@ -233,7 +245,7 @@ body {
     max-height: 25rem;
     object-fit: contain;
     border: var(--border-conf);
-    border-radius: var(--broder-radius);
+    border-radius: var(--border-radius);
 }
 
 .product-card__info {
@@ -271,7 +283,7 @@ body {
 
 .product-card__url {
     display: block;
-    color: #007bff;
+    color: #818cf8;
     text-decoration: none;
     order: 1;
 }
